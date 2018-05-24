@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <form id="form_1" method="post" accept-charset="utf-8" return false>
+    <input type="hidden" name = "userid" id="userid" value="3">
+    </form>
+    <button class="ajax" articleid="20">hakushu</button>
+    <!-- <div class="result"></div> -->
+    はくしゅすう<div id="result_count20" countnumber="0">0</div>
+    <button class="ajax" articleid="21">hakushu</button>
+    <!-- <div class="result"></div> -->
+    はくしゅすう<div id="result_count21" countnumber="0">0</div>
+    <button class="ajax" articleid="22">hakushu</button>
+    <!-- <div class="result"></div> -->
+    はくしゅすう<div id="result_count22" countnumber="0">0</div>
+
+
+    <script type="text/javascript">
+
+        $(function(){
+            // Ajax button click
+            $('.ajax').on('click',function(){
+                var article_id = $(this).attr("articleid");
+                console.log('ajax');
+                $.ajax({
+                    url:'./request.php',
+                    type:'POST',
+                    data:{
+                        'userid':$('#userid').val(),
+                        'articleid':article_id
+                    }
+                })
+                // Ajaxリクエストが成功した時発動
+                .done( (data) => {
+                    console.log(article_id);
+                    $('.result').html(data);
+                    console.log(data);
+                    var num = $('#result_count'+article_id).attr("countnumber");
+                    num = Number(num) + 1;
+                    $('#result_count'+article_id).attr("countnumber",num);
+                    $('#result_count'+article_id).html(num);
+                })
+                // Ajaxリクエストが失敗した時発動
+                .fail( (data) => {
+                    $('.result').html(data);
+                    console.log(data);
+                })
+                // Ajaxリクエストが成功・失敗どちらでも発動
+                .always( (data) => {
+
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
